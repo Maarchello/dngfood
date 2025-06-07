@@ -6,6 +6,7 @@ import MenuList from "./components/MenuList/MenuList";
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import MyBottomNavigation from "./components/BottomNavigation/MyBottomNavigation";
 import RestaurantList from "./components/RestaurantList/RestaurantList";
+import {useTelegramBackButton} from "./hooks/useTelegramBackButton";
 
 function App() {
     const {tg, onToggleButton} = useTelegram();
@@ -22,14 +23,14 @@ function App() {
         },
     })
 
+    useTelegramBackButton();
+
   return (
     <div className="App">
         <ThemeProvider theme={theme}>
             <CssBaseline />
 
             <MyBottomNavigation />
-
-            {/*<Header/>*/}
             <Routes>
                 <Route index element={<RestaurantList/>} />
                 <Route path={'restaurants'} element={<RestaurantList />} />

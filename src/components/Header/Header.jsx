@@ -1,28 +1,37 @@
 import React from 'react';
-import Button from "../Button/Button";
-import {useTelegram} from "../../hooks/useTelegram";
-import './Header.css'
-import {useLocation, useNavigate} from "react-router-dom";
+import {AppBar, IconButton, Toolbar, Typography} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {useLocation, useNavigate} from 'react-router-dom';
+
+const getTitleFromPath = (pathname) => {
+    if (pathname.includes('/menu')) return 'Меню';
+    if (pathname === '/' || pathname.startsWith('/restaurants')) return 'Заведения';
+    return '';
+};
 
 const Header = () => {
-
-    const {onClose} = useTelegram();
-    const location = useLocation();
     const navigate = useNavigate();
-    const onBack = () => {
-        if (window.history.state && window.history.state.idx > 0) {
-            navigate(-1);
-        } else {
-            navigate('/', {replace: true})
-        }
-    }
+    const location = useLocation();
 
-    let isMainLocation = location.pathname === `/`;
+    const title = getTitleFromPath(location.pathname);
+
+    const handleBack = () => navigate(-1);
+
+    const hideBack = location.pathname === '/' || location.pathname === '/restaurants';
 
     return (
-        <div className={'header'}>
-            <Button onClick={isMainLocation ? onClose : onBack}>{isMainLocation ? 'Закрыть' : 'Назад'}</Button>
-        </div>
+        <AppBar position="static" color="primary">
+            <Toolbar>
+                {!hideBack && (
+                    <IconButton edge="start" color="inherit" onClick={handleBack}>
+                        <ArrowBackIcon />
+                    </IconButton>
+                )}
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    {title}
+                </Typography>
+            </Toolbar>
+        </AppBar>
     );
 };
 
