@@ -1,0 +1,22 @@
+
+
+.img {
+    width: 100%;
+    background: lightgray;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.description {
+    font-size: 0.8em;
+}
+
+.btn-block {
+    display: flex;
+    flex-direction: row;
+}
+
+.btn {
+    width: 100%;
+    margin: 15px;
+}

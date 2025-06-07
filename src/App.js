@@ -1,0 +1,59 @@
+import './App.css';
+import React, {useEffect} from "react";
+import {useTelegram} from "./hooks/useTelegram";
+import Header from "./components/Header/Header";
+import {Route, Routes} from 'react-router-dom'
+import MenuList from "./components/MenuList/MenuList";
+import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+import MyBottomNavigation from "./components/BottomNavigation/MyBottomNavigation";
+import RestaurantList from "./components/RestaurantList/RestaurantList";
+
+function App() {
+    const {tg, onToggleButton} = useTelegram();
+
+    useEffect(() => {
+        tg.ready();
+
+        // tg.WebApp.BackButton.show();
+        // tg.WebApp.BackButton.onClick(() => {
+        //     console.log("Нажата кнопка 'Назад'!");
+        //
+        //     // Возврат в истории браузера
+        //     if (window.history.length > 1) {
+        //         window.history.back();
+        //     } else {
+        //         tg.WebApp.close(); // Закрыть Mini App, если история пуста
+        //     }
+        // });
+    }, []);
+
+
+
+    const theme = createTheme({
+        palette: {
+            mode: tg.colorScheme,
+        },
+    })
+
+  return (
+    <div className="App">
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+
+            <MyBottomNavigation />
+
+            {/*<Header/>*/}
+            <Routes>
+                <Route index element={<RestaurantList/>} />
+                <Route path={'restaurants'} element={<RestaurantList />} />
+                <Route path={'restaurants/:restId/menu'} element={<MenuList />} />
+
+            </Routes>
+
+        </ThemeProvider>
+
+    </div>
+  );
+}
+
+export default App;
