@@ -1,12 +1,10 @@
 import * as React from 'react';
-import {useTheme} from '@mui/material/styles';
+import {useState} from 'react';
 
-import {CardMedia} from "@mui/material";
-import {Slide} from "react-slideshow-image";
+import {Box, IconButton} from "@mui/material";
 import 'react-slideshow-image/dist/styles.css';
-import {Box, IconButton} from '@mui/material';
 import {ArrowBackIos, ArrowForwardIos} from '@mui/icons-material';
-import {useState} from "react";
+
 // const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 

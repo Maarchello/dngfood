@@ -1,7 +1,6 @@
 import './App.css';
 import React, {useEffect} from "react";
 import {useTelegram} from "./hooks/useTelegram";
-import Header from "./components/Header/Header";
 import {Route, Routes} from 'react-router-dom'
 import MenuList from "./components/MenuList/MenuList";
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";

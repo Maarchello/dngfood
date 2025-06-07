@@ -1,58 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import './MenuList.css'
 import '../../Common.css'
-
-import MenuItem from "../MenuItem/MenuItem";
 import {useParams} from 'react-router-dom';
 import {getMenuItems, makeOrder} from "../../service/ApiService";
 import {
-    Box, Tab, Tabs, Typography, Dialog,
-    DialogTitle,
-    DialogContent,
+    Button,
+    Dialog,
     DialogActions,
-    TextField,
+    DialogContent,
+    DialogTitle,
+    FormControlLabel,
+    FormLabel,
     Radio,
     RadioGroup,
-    FormControlLabel,
-    FormLabel, Button
+    TextField
 } from "@mui/material";
-import MenuItem2 from "../MenuItem/MenuItem2";
+import MenuItem from "../MenuItem/MenuItem";
 import Cart from "../Cart/Cart";
-import {} from '@mui/material';
-
-function CustomTabPanel(props) {
-    const {children, value, index, ...other} = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{p: 0}}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
-
-function a11yProps(index) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
 
 const MenuList = () => {
     const {restId} = useParams();
 
     const [cartItems, setCartItems] = useState([]);
     const [menuItems, setMenuItems] = useState([]);
-    const [value, setValue] = useState(0);
 
     const [openDialog, setOpenDialog] = useState(false);
     const [address, setAddress] = useState('');
@@ -122,7 +92,7 @@ const MenuList = () => {
             <div className="menu_items_container">
                 {menuItems.map((menuItem) => {
                     return (
-                        <MenuItem2 food={menuItem} key={menuItem.id} onAdd={onAdd} onRemove={onRemove}/>
+                        <MenuItem food={menuItem} key={menuItem.id} onAdd={onAdd} onRemove={onRemove}/>
                     );
                 })}
             </div>
