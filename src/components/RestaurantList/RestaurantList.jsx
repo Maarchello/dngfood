@@ -51,18 +51,6 @@ const RestaurantList = () => {
     return (
         <div className={'main'}>
 
-            {/*<Box sx={{ marginBottom: 2, borderBottom: 1, borderColor: 'divider' }}>*/}
-            {/*    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" variant="scrollable">*/}
-
-            {/*        {*/}
-            {/*            categories.map((item, idx) => {*/}
-            {/*                return <Tab label={item} {...a11yProps(idx)} />*/}
-            {/*            })*/}
-            {/*        }*/}
-
-            {/*    </Tabs>*/}
-            {/*</Box>*/}
-
             <div>
                 {restaurants.length === 0 ? (
                     <CircularProgress />
