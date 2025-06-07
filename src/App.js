@@ -12,18 +12,6 @@ function App() {
 
     useEffect(() => {
         tg.ready();
-
-        // tg.WebApp.BackButton.show();
-        // tg.WebApp.BackButton.onClick(() => {
-        //     console.log("Нажата кнопка 'Назад'!");
-        //
-        //     // Возврат в истории браузера
-        //     if (window.history.length > 1) {
-        //         window.history.back();
-        //     } else {
-        //         tg.WebApp.close(); // Закрыть Mini App, если история пуста
-        //     }
-        // });
     }, []);
 
 

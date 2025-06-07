@@ -17,9 +17,12 @@ import {
 } from "@mui/material";
 import MenuItem from "../MenuItem/MenuItem";
 import Cart from "../Cart/Cart";
+import {useTelegram} from "../../hooks/useTelegram";
 
 const MenuList = () => {
     const {restId} = useParams();
+
+    const {onClose} = useTelegram();
 
     const [cartItems, setCartItems] = useState([]);
     const [menuItems, setMenuItems] = useState([]);
@@ -80,7 +83,7 @@ const MenuList = () => {
 
         }
         makeOrder(payload, () => {
-            console.log('success')
+            onClose()
         })
     };
 
