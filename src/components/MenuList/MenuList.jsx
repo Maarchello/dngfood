@@ -38,6 +38,10 @@ const MenuList = () => {
         })
     }, []);
 
+    // useEffect(() => {
+    //     console.log('cartItems changed:', cartItems);
+    // }, [cartItems]);
+
     const onAdd = (food) => {
         const exist = cartItems.find((x) => x.id === food.id);
         if (exist) {
@@ -72,6 +76,8 @@ const MenuList = () => {
         const positions = Object.fromEntries(
             cartItems.map(({ id, quantity }) => [id, quantity])
         );
+
+        console.log(positions)
 
         setOpenDialog(false);
 

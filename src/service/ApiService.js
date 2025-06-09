@@ -6,6 +6,15 @@ const requestOptions = {
     headers: {'ngrok-skip-browser-warning': 'anyValueHere'},
 };
 
+export function getOrderById(orderId, callback) {
+    fetch(`${baseUrl}/api/orders/${orderId}`, requestOptions)
+        .then((res) => res.json())
+        .then((data) => {
+            callback(data);
+        }).catch((err) => {
+        console.log(err);
+    });
+}
 
 export function getRestaurantBookings(managerChatId, date, callback) {
 
