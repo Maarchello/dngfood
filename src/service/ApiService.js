@@ -21,6 +21,22 @@ export function makeOrder(payload, callback) {
     post(`${baseUrl}/api/orders`, JSON.stringify(payload), callback)
 }
 
+export function cancelOrder(orderId, callback) {
+    post(`${baseUrl}/api/orders/${orderId}/cancel`, null, callback);
+}
+
+export function orderReceived(orderId, callback) {
+    post(`${baseUrl}/api/orders/${orderId}/received`, null, callback);
+}
+
+export function orderNotReceived(orderId, callback) {
+    post(`${baseUrl}/api/orders/${orderId}/not-received`, null, callback);
+}
+
+export function refundOrder(orderId, callback) {
+    post(`${baseUrl}/api/orders/${orderId}/refund`, null, callback);
+}
+
 export async function getMenuItems(restId, callback) {
     await getAsJson(`${baseUrl}/api/restaurants/${restId}/menu`, callback)
 }
