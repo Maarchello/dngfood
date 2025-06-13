@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import "./MenuItem.css";
 import Button from "../Button/Button";
+import {filesUrl} from "../../service/ApiService";
 
 function MenuItem({ food, onAdd, onRemove }) {
     const [count, setCount] = useState(0);
@@ -23,7 +24,7 @@ function MenuItem({ food, onAdd, onRemove }) {
         {count}
       </span>
             <div className="image__container">
-                <img src={photo} alt={name} />
+                <img src={filesUrl + photo} alt={name} />
             </div>
             <h4 className="card__title">
                 {name} . <span className="card__price">VND {price}</span>

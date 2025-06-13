@@ -21,9 +21,6 @@ export async function getAsJson(url, callback) {
         },
     };
 
-    // const res = await fetch(url, requestOptions);
-    // handleErrors(res;)
-
     fetch(url, requestOptions)
         .then((res) => handleErrors(res))
         .then((res) => res.json())
