@@ -8,9 +8,13 @@ import MyBottomNavigation from "./components/BottomNavigation/MyBottomNavigation
 import RestaurantList from "./components/RestaurantList/RestaurantList";
 import {useTelegramBackButton} from "./hooks/useTelegramBackButton";
 import OrderDetails from "./components/OrderDetails/OrderDetails";
+import OrderList from "./components/OrderList/OrderList";
+import {useAuth} from "./hooks/useAuth";
 
 function App() {
     const {tg, onToggleButton} = useTelegram();
+
+    const {token} = useAuth();
 
     useEffect(() => {
         tg.ready();
@@ -36,6 +40,7 @@ function App() {
                 <Route index element={<RestaurantList/>} />
                 <Route path={'restaurants'} element={<RestaurantList />} />
                 <Route path={'restaurants/:restId/menu'} element={<MenuList />} />
+                <Route path={'orders'} element={<OrderList />} />
                 <Route path={'orders/:orderId/details'} element={<OrderDetails />} />
 
             </Routes>

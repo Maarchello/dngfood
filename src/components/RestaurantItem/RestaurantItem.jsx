@@ -1,73 +1,47 @@
-import React, {useState} from 'react';
-import './RestaurantItem.css'
-import '../../Common.css'
-
+import React from 'react';
+import {Button, Card, CardActions, CardContent, CardMedia, Typography,} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-import {useTelegram} from "../../hooks/useTelegram";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {filesUrl} from "../../service/ApiService";
 
-import {
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    CardMedia, Collapse,
-    IconButton,
-    IconButtonProps,
-    styled,
-    Typography
-} from "@mui/material";
-import {getRestaurantLocation} from "../../service/ApiService";
-
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
-
-interface ExpandMoreProps extends IconButtonProps {
-    expand: boolean;
-}
-
-const RestaurantItem = ({restaurant, className}) => {
-
+const RestaurantItem = ({ restaurant }) => {
     const navigate = useNavigate();
-
-    const onMenuHandler = () => {
-        navigate(`/restaurants/${restaurant.id}/menu`);
-    }
+    const onMenu = () => navigate(`/restaurants/${restaurant.id}/menu`);
 
     return (
+        <Card
+            sx={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                marginBottom: '20px'
+            }}
+            elevation={3}
+        >
+            <CardMedia
+                component="img"
+                height="160"
+                image={filesUrl + restaurant.photo || '/no-image.png'}
+                alt={restaurant.name}
+                onError={(e) => { e.target.onerror = null; e.target.src = '/no-image.png'; }}
+                sx={{ objectFit: 'cover' }}
+            />
 
-        <div>
-            <Card sx={{ minWidth: 350 }}>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image={restaurant.photo}
-                        alt={restaurant.name}
-                    />
-                <CardContent>
-                    <Typography gutterBottom variant="h6" component="div">
-                        {restaurant.name}
-                    </Typography>
-                    <Typography sx={{mb: 1.5}} variant="h7" color="text.secondary">
-                        {restaurant.description}<br/>
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <Button fullWidth={true} onClick={onMenuHandler}>Меню</Button>
-                </CardActions>
+            <CardContent sx={{ flexGrow: 1, pt: 2 }}>
+                <Typography variant="h5" gutterBottom noWrap>
+                    {restaurant.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" noWrap>
+                    {restaurant.description}
+                </Typography>
+            </CardContent>
 
-            </Card>
-
-        </div>
+            <CardActions>
+                <Button fullWidth variant="contained" onClick={onMenu}>
+                    Меню
+                </Button>
+            </CardActions>
+        </Card>
     );
 };
 

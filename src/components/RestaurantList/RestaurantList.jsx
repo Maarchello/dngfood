@@ -19,17 +19,15 @@ const RestaurantList = () => {
     return (
         <div className={'main'}>
 
-            <div>
-                {restaurants.length === 0 ? (
-                    <CircularProgress />
-                ) : (
-                    <div className="list">
-                        {restaurants.map(item => (
-                            <RestaurantItem key={item.id} restaurant={item} />
-                        ))}
-                    </div>
-                )}
-            </div>
+            {restaurants.length === 0 ? (
+                <CircularProgress />
+            ) : (
+                <div className="list">
+                    {restaurants.map(item => (
+                        <RestaurantItem key={item.id} restaurant={item} />
+                    ))}
+                </div>
+            )}
 
 
         </div>

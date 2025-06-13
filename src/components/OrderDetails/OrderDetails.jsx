@@ -53,6 +53,7 @@ const OrderDetails = () => {
             <Typography variant="subtitle1"><b>Стоимость:</b> {order.price} VND</Typography>
             <Typography variant="subtitle1">
                 <b>Статус:</b> {renderStatusChip(order.status)}
+                <Typography variant="subtitle1">{order?.status == 'REJECTED' ? order.rejectReason : ''}</Typography>
             </Typography>
             <Divider sx={{ my: 2 }} />
 

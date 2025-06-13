@@ -17,11 +17,11 @@ const MyBottomNavigation = () => {
                 setValue(newValue);
             }}
         >
-            <BottomNavigationAction value="Restaurants" label="Restaurants" icon={<RestaurantIcon/>}
+            <BottomNavigationAction value="Restaurants" label="Заведения" icon={<RestaurantIcon/>}
                                     onClick={() => navigate("/restaurants")} />
 
-            <BottomNavigationAction value="Bookings" label="Bookings" icon={<HistoryIcon/>}
-                                    onClick={() => navigate("/bookings")}/>
+            <BottomNavigationAction value="Orders" label="Заказы" icon={<HistoryIcon/>}
+                                    onClick={() => navigate("/orders")}/>
 
             {/*<BottomNavigationAction value="Profile" label="Profile" icon={<AccountCircleIcon/>}*/}
             {/*                        onClick={() => navigate("/profile")}/>*/}
