@@ -24,7 +24,7 @@ const MenuItem = ({ food, onAdd, onRemove }) => {
         <Box
             sx={{
                 position: "relative",
-                bgcolor: "background.paper",
+                bgcolor: theme.palette.cardBg,
                 borderRadius: 2,
                 boxShadow: 1,
                 overflow: "hidden",
@@ -89,7 +89,7 @@ const MenuItem = ({ food, onAdd, onRemove }) => {
             {/* кнопка «+» */}
             <IconButton
                 onClick={inc}
-                size="medium"
+                size="small"
                 sx={{
                     position: "absolute",
                     bottom: 8,
@@ -106,7 +106,7 @@ const MenuItem = ({ food, onAdd, onRemove }) => {
             {count > 0 && (
                 <IconButton
                     onClick={dec}
-                    size="medium"
+                    size="small"
                     sx={{
                         position: "absolute",
                         bottom: 8,

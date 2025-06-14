@@ -18,6 +18,7 @@ const RestaurantItem = ({ restaurant }) => {
                 p: 2,
                 borderRadius: 2,
                 boxShadow: 1,
+                bgcolor: theme.palette.cardBg
             }}
         >
             {/* Картинка */}

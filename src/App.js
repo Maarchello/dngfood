@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useEffect} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {useTelegram} from "./hooks/useTelegram";
 import {Route, Routes} from 'react-router-dom'
 import MenuList from "./components/MenuList/MenuList";
@@ -11,20 +11,48 @@ import OrderDetails from "./components/OrderDetails/OrderDetails";
 import OrderList from "./components/OrderList/OrderList";
 import {useAuth} from "./hooks/useAuth";
 
+import {lighten} from "@mui/material/styles";
+
 function App() {
     const {tg, onToggleButton} = useTelegram();
 
     const {token} = useAuth();
 
+    const [mode, setMode] = useState(tg.colorScheme);
+
     useEffect(() => {
         tg.ready();
     }, []);
 
-    const theme = createTheme({
-        palette: {
-            mode: tg.colorScheme,
-        },
-    })
+    // при смене темы в клиенте — обновляем mode
+    useEffect(() => {
+        tg.onEvent("themeChanged", () => {
+            setMode(tg.colorScheme);
+        });
+    }, [tg]);
+
+    // создаём тему уже на лету, когда mode меняется
+    const theme = useMemo(() => {
+        const base = createTheme({
+            palette: {
+                mode,
+                background: {
+                    paper: mode === "dark" ? "#151515" : "#fff",
+                    default: mode === "dark" ? "#000"    : "#f5f5f5",
+                },
+            },
+        });
+        return createTheme({
+            ...base,
+            palette: {
+                ...base.palette,
+                cardBg:
+                    mode === "dark"
+                        ? lighten(base.palette.background.paper, 0.08)
+                        : base.palette.background.paper,
+            },
+        });
+    }, [mode]);
 
     useTelegramBackButton();
 
