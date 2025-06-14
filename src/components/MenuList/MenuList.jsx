@@ -65,25 +65,39 @@ const MenuList = () => {
     const handleCheckout = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault(); // чтобы не перезагружалась страница
+        console.log("Форма отправилась!");
+        // если поля пустые, браузер не вызовет onSubmit
+        // и покажет красные подсказки под полями
+
         const positions = Object.fromEntries(
             cartItems.map(({id, quantity}) => [id, quantity])
         );
-        setOpen(false);
-        makeOrder(
-            {
-                deliveryAddress: address,
-                clientContactPhone: phone,
-                paymentMethod,
-                positions
-            },
-            () => onClose()
-        );
+        makeOrder({deliveryAddress: address, clientContactPhone: phone, paymentMethod, positions}, () => {
+            onClose();
+        });
     };
+
+    // const handleSubmit = () => {
+    //     const positions = Object.fromEntries(
+    //         cartItems.map(({id, quantity}) => [id, quantity])
+    //     );
+    //     setOpen(false);
+    //     makeOrder(
+    //         {
+    //             deliveryAddress: address,
+    //             clientContactPhone: phone,
+    //             paymentMethod,
+    //             positions
+    //         },
+    //         () => onClose()
+    //     );
+    // };
 
     return (
         <Box sx={{p: 2, bgcolor: "background.default", minHeight: "100vh"}}>
-            <Box sx={{ p: 2, bgcolor: "background.default", minHeight: "100vh" }}>
+            <Box sx={{p: 2, bgcolor: "background.default", minHeight: "100vh"}}>
                 <Typography variant="h5" align="center" gutterBottom>
                     Меню на сегодня
                 </Typography>
@@ -111,55 +125,58 @@ const MenuList = () => {
                     ))}
                 </Box>
 
-                <Cart cartItems={cartItems} onCheckout={handleCheckout} />
+                <Cart cartItems={cartItems} onCheckout={handleCheckout}/>
             </Box>
 
             {/*<Cart cartItems={cartItems} onCheckout={handleCheckout}/>*/}
 
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Оформление заказа</DialogTitle>
-                <DialogContent dividers>
-                    <TextField
-                        label="Адрес доставки"
-                        fullWidth
-                        margin="normal"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                    />
-                    <TextField
-                        label="Номер телефона"
-                        fullWidth
-                        margin="normal"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                    />
-                    <FormLabel sx={{mt: 2}}>Способ оплаты</FormLabel>
-                    <RadioGroup
-                        row
-                        value={paymentMethod}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                    >
-                        <FormControlLabel
-                            value="QR"
-                            control={<Radio/>}
-                            label="QR"
+                <form onSubmit={handleSubmit}>
+                    <DialogContent dividers>
+                        <TextField
+                            required
+                            label="Адрес доставки"
+                            name="address"
+                            fullWidth
+                            margin="normal"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
                         />
-                        <FormControlLabel
-                            value="CASH"
-                            control={<Radio/>}
-                            label="Наличные"
+                        <TextField
+                            required
+                            label="Номер телефона"
+                            name="phone"
+                            fullWidth
+                            margin="normal"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
                         />
-                    </RadioGroup>
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        variant="contained"
-                        fullWidth
-                        onClick={handleSubmit}
-                    >
-                        Подтвердить
-                    </Button>
-                </DialogActions>
+                        <FormLabel sx={{mt: 2}}>Способ оплаты</FormLabel>
+                        <RadioGroup
+                            row
+                            value={paymentMethod}
+                            onChange={(e) => setPaymentMethod(e.target.value)}
+                        >
+                            <FormControlLabel
+                                value="QR"
+                                control={<Radio/>}
+                                label="QR"
+                            />
+                            <FormControlLabel
+                                value="CASH"
+                                control={<Radio/>}
+                                label="Наличные"
+                            />
+                        </RadioGroup>
+                    </DialogContent>
+
+                    <DialogActions sx={{ p: 2 }}>
+                        <Button type="submit" variant="contained" fullWidth>
+                            Подтвердить
+                        </Button>
+                    </DialogActions>
+                </form>
             </Dialog>
         </Box>
     );

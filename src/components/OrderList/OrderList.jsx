@@ -2,15 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Box, Chip, CircularProgress, Divider, List, ListItem, ListItemText, Typography,} from '@mui/material';
 import {getUserOrders} from '../../service/ApiService';
+import {Constants} from "../../service/Constants";
 
-const statusConfig = {
-    NEW: { label: 'Новый', color: 'warning' },
-    REJECTED: { label: 'Отклонён', color: 'error' },
-    ON_KITCHEN: { label: 'Готовится', color: 'info' },
-    ON_DELIVERY: { label: 'В доставке', color: 'primary' },
-    COMPLETED_BY_USER: { label: 'Доставлен', color: 'success' },
-    CANCELLED_BY_USER: { label: 'Отменён', color: 'default' },
-};
+const statusConfig = Constants.ORDER_STATUSES;
 
 const renderStatus = (status) => {
     const c = statusConfig[status] || { label: status, color: 'default' };
