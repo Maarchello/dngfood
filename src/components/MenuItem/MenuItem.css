@@ -1,133 +1,80 @@
-.item {
-    display: flex;
-    flex-direction: column;
-    border-radius: 15px;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-}
-
-
-
-.item-dark {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #293642;
-    border-radius: 15px;
-    background: #293642;
-    padding: 15px;
-    width: 100%;
-    color: var(--tg-theme-text-color);
-}
-
-.item-light {
-    display: flex;
-    flex-direction: column;
-    /*border: 1px solid #ecf6f0;*/
-    border-radius: 15px;
-    /*background: #ecf6f0;*/
-    padding: 15px;
-    width: 100%;
-    /*color: var(--tg-theme-text-color);*/
-}
-
-.img {
-    width: 100%;
-    background: lightgray;
-    height: 100%;
-    /*margin: 0 auto;*/
-    background: var(--tg-theme-button-color);
-}
-
-.price {
-    text-align: right;
-    color: #14b914;
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-.item-name {
-    font-size: 1.2em;
-}
-
-
-:root {
-    --primary-color: #e0c521;
-}
-
+/* карточка */
 .card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 150px;
-    height: 250px;
-    border: 2px solid var(--primary-color);
-    padding: 0.5rem 0.3rem;
-    margin: 13px 10px;
     position: relative;
-    border-radius: 5px;
+    width: calc(50% - 12px);      /* две колонки на мобиле */
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    margin-bottom: 16px;
 }
 
-.card__title {
-    font-weight: 400;
-    text-align: center;
-}
-
-.card__title .card__price {
-    font-weight: bold;
-}
-
-.image__container {
-    width: 100px;
-    height: 100px;
-    margin: 0 auto;
-}
-
-.image__container img {
+/* картинка */
+.image {
     width: 100%;
+    height: 160px;                /* ↑ регулируйте по вкусу */
+    overflow: hidden;
+}
+.image img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
-.btn-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+/* блок с названием и ценой */
+.info {
+    padding: 8px 12px 40px;       /* extra bottom-space под кнопку */
+}
+.info__name  { font-size: 14px; line-height: 1.25; margin: 0 0 4px; }
+.info__price { font-weight: 600; }
+
+/* «+» — главный акцент */
+.btn-add {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #17a54d;
+    color: #fff;
+    font-size: 26px;
+    line-height: 1;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,.2);
 }
 
-.card__price {
-    text-align: center;
-    display: inline-block;
+/* «−» — всплывает рядом, когда товар уже в корзине */
+.btn-remove {
+    position: absolute;
+    right: 60px;
+    bottom: 12px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #d5463a;
+    color: #fff;
+    font-size: 26px;
+    line-height: 1;
+    border: none;
+    cursor: pointer;
 }
 
+/* бейдж количества */
 .card__badge {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 40px;
-    height: 40px;
-    background-color: rgb(227, 112, 30);
-    border-radius: 50%;
-    transform: translate(20px, -20px) scale(1);
+    top: 8px;
+    left: 8px;
+    background: #17a54d;
     color: #fff;
-    font-weight: bold;
-    text-align: center;
-    border: 2px solid rgb(227, 112, 30);
-    font-size: 20px;
+    min-width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 17px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    transition: all 0.3s ease;
-    animation: scaleanimation 1s ease infinite;
-    opacity: 0.8;
+    justify-content: center;
 }
 
-@keyframes scaleanimation {
-    to {
-        transform: translate(20px, -20px) scale(1.05);
-        opacity: 1;
-    }
-}
-
-.card__badge--hidden {
-    display: none;
-}
+/* скрытый бейдж — просто не выводим в JSX */

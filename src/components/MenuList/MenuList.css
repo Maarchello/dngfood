@@ -1,5 +1,8 @@
 .menu_items_container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    gap: 16px 12px;        /* вертикаль | горизонталь */
+    justify-content: space-between;
+    /* снизу место под bottom-bar */
+    padding: 0 8px 100px;
 }

@@ -91,7 +91,7 @@ const MenuList = () => {
     return (
         <>
             <h1 className="heading" align="center">Меню на сегодня</h1>
-            <Cart cartItems={cartItems} onCheckout={onCheckout}/>
+            {/*<Cart cartItems={cartItems} onCheckout={onCheckout}/>*/}
             <div className="menu_items_container">
                 {menuItems.map((menuItem) => {
                     return (
@@ -99,6 +99,8 @@ const MenuList = () => {
                     );
                 })}
             </div>
+
+            <Cart cartItems={cartItems} onCheckout={onCheckout}/>
 
             <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
                 <DialogTitle>Оформление заказа</DialogTitle>

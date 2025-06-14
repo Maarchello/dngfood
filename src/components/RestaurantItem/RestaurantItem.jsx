@@ -1,47 +1,46 @@
-import React from 'react';
-import {Button, Card, CardActions, CardContent, CardMedia, Typography,} from '@mui/material';
-import {useNavigate} from 'react-router-dom';
+// src/components/RestaurantItem/RestaurantItem.jsx
+import React from "react";
+import {useNavigate} from "react-router-dom";
+import StarIcon from "@mui/icons-material/Star";
+import "./RestaurantItem.css";
 import {filesUrl} from "../../service/ApiService";
 
 const RestaurantItem = ({ restaurant }) => {
     const navigate = useNavigate();
-    const onMenu = () => navigate(`/restaurants/${restaurant.id}/menu`);
+    const openMenu = () => navigate(`/restaurants/${restaurant.id}/menu`);
+
+    // заглушка рейтинга (если поля нет — показываем «NEW»)
+    const rating = restaurant.rating ?? null;
 
     return (
-        <Card
-            sx={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                marginBottom: '20px'
-            }}
-            elevation={3}
-        >
-            <CardMedia
-                component="img"
-                height="160"
-                image={filesUrl + restaurant.photo || '/no-image.png'}
+        <div className="rest-item" onClick={openMenu}>
+            <img
+                src={filesUrl + restaurant.photo}
                 alt={restaurant.name}
-                onError={(e) => { e.target.onerror = null; e.target.src = '/no-image.png'; }}
-                sx={{ objectFit: 'cover' }}
+                onError={(e) => {
+                    e.target.onerror = null;
+                }}
             />
 
-            <CardContent sx={{ flexGrow: 1, pt: 2 }}>
-                <Typography variant="h5" gutterBottom noWrap>
-                    {restaurant.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" noWrap>
-                    {restaurant.description}
-                </Typography>
-            </CardContent>
+            <div className="rest-info">
+                <div className="rest-top">
+                    <h4 className="rest-name">{restaurant.name}</h4>
 
-            <CardActions>
-                <Button fullWidth variant="contained" onClick={onMenu}>
-                    Меню
-                </Button>
-            </CardActions>
-        </Card>
+                    {rating ? (
+                        <span className="rest-rating">
+              <StarIcon fontSize="inherit" />
+                            {rating.toFixed(1)}
+            </span>
+                    ) : (
+                        <span className="rest-new">NEW</span>
+                    )}
+                </div>
+
+                <p className="rest-desc">{restaurant.description}</p>
+
+                {/* при необходимости сюда можно добавить «from 30 mins • 12 000đ» */}
+            </div>
+        </div>
     );
 };
 

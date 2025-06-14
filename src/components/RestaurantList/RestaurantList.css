@@ -1,13 +1,32 @@
-.list {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 10px;
+/* уже было */
+.main {
+    background: #f5f7fa;
+    padding: 8px;
 }
 
-.cards__container{
+/* новая шапка */
+.search-bar {
+    position: sticky;          /* прилипает к верху при скролле */
+    top: 0;
+    z-index: 200;
+    background: #f5f7fa;
+    padding: 4px 0 8px;
+}
+
+/* центрируем лоадер */
+.loader {
+    margin-top: 40px;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
 }
+
+/* RestaurantList.css */
+
+.top-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 12px 0 8px;
+    margin-bottom: 4px;          /* небольшой отступ от списка */
+}
+.top-scroll::-webkit-scrollbar { display: none; } /* скрыть скроллбар */

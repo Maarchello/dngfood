@@ -1,0 +1,24 @@
+.top-card {
+    flex: 0 0 110px;           /* фиксированная ширина */
+    display: flex;
+    flex-direction: column;
+    align-items: center;       /* ⟵ картинка и текст по центру */
+    text-align: center;        /* ⟵ сам текст по центру */
+    cursor: pointer;
+}
+
+.top-card img {
+    width: 88px;
+    height: 88px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.top-card p {
+    margin: 6px 0 0;
+    font: 600 13px/1.25 "Inter", sans-serif;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;   /* обрезаем слишком длинное */
+}
