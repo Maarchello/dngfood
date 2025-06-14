@@ -1,9 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import './MenuList.css'
-import '../../Common.css'
-import {useParams} from 'react-router-dom';
-import {getMenuItems, makeOrder} from "../../service/ApiService";
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 import {
+    Box,
     Button,
     Dialog,
     DialogActions,
@@ -13,98 +11,114 @@ import {
     FormLabel,
     Radio,
     RadioGroup,
-    TextField
+    TextField,
+    Typography
 } from "@mui/material";
 import MenuItem from "../MenuItem/MenuItem";
 import Cart from "../Cart/Cart";
 import {useTelegram} from "../../hooks/useTelegram";
+import {getMenuItems, makeOrder} from "../../service/ApiService";
 
 const MenuList = () => {
     const {restId} = useParams();
-
     const {onClose} = useTelegram();
 
-    const [cartItems, setCartItems] = useState([]);
     const [menuItems, setMenuItems] = useState([]);
+    const [cartItems, setCartItems] = useState([]);
 
-    const [openDialog, setOpenDialog] = useState(false);
-    const [address, setAddress] = useState('');
-    const [phone, setPhone] = useState('');
-    const [paymentMethod, setPaymentMethod] = useState('qr');
+    const [open, setOpen] = useState(false);
+    const [address, setAddress] = useState("");
+    const [phone, setPhone] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState("QR");
 
     useEffect(() => {
-        getMenuItems(restId, (data) => {
-            setMenuItems(data);
-        })
-    }, []);
+        getMenuItems(restId, (data) => setMenuItems(data));
+    }, [restId]);
 
     const onAdd = (food) => {
         const exist = cartItems.find((x) => x.id === food.id);
         if (exist) {
             setCartItems(
                 cartItems.map((x) =>
-                    x.id === food.id ? {...exist, quantity: exist.quantity + 1} : x
+                    x.id === food.id ? {...x, quantity: x.quantity + 1} : x
                 )
             );
         } else {
             setCartItems([...cartItems, {...food, quantity: 1}]);
         }
-    }
+    };
+
     const onRemove = (food) => {
         const exist = cartItems.find((x) => x.id === food.id);
+        if (!exist) return;
         if (exist.quantity === 1) {
             setCartItems(cartItems.filter((x) => x.id !== food.id));
         } else {
             setCartItems(
                 cartItems.map((x) =>
-                    x.id === food.id ? {...exist, quantity: exist.quantity - 1} : x
+                    x.id === food.id ? {...x, quantity: x.quantity - 1} : x
                 )
             );
         }
-    }
-
-    const onCheckout = () => {
-        setOpenDialog(true);
-    }
-
-    const handleSubmitOrder = () => {
-
-        const positions = Object.fromEntries(
-            cartItems.map(({ id, quantity }) => [id, quantity])
-        );
-
-        setOpenDialog(false);
-
-        let payload = {
-            deliveryAddress: address,
-            clientContactPhone: phone,
-            paymentMethod: paymentMethod,
-            positions: positions
-
-        }
-        makeOrder(payload, () => {
-            onClose()
-        })
     };
 
+    const handleCheckout = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const handleSubmit = () => {
+        const positions = Object.fromEntries(
+            cartItems.map(({id, quantity}) => [id, quantity])
+        );
+        setOpen(false);
+        makeOrder(
+            {
+                deliveryAddress: address,
+                clientContactPhone: phone,
+                paymentMethod,
+                positions
+            },
+            () => onClose()
+        );
+    };
 
     return (
-        <>
-            <h1 className="heading" align="center">Меню на сегодня</h1>
-            {/*<Cart cartItems={cartItems} onCheckout={onCheckout}/>*/}
-            <div className="menu_items_container">
-                {menuItems.map((menuItem) => {
-                    return (
-                        <MenuItem food={menuItem} key={menuItem.id} onAdd={onAdd} onRemove={onRemove}/>
-                    );
-                })}
-            </div>
+        <Box sx={{p: 2, bgcolor: "background.default", minHeight: "100vh"}}>
+            <Box sx={{ p: 2, bgcolor: "background.default", minHeight: "100vh" }}>
+                <Typography variant="h5" align="center" gutterBottom>
+                    Меню на сегодня
+                </Typography>
 
-            <Cart cartItems={cartItems} onCheckout={onCheckout}/>
+                {/*────── Сетка CSS Grid ──────*/}
+                <Box
+                    sx={{
+                        display: "grid",
+                        gap: 2,
+                        // repeat(2,1fr) — 2 одинаковых колонки
+                        gridTemplateColumns: {
+                            xs: "repeat(2, 1fr)",  // от 0 до 600px — 2 колонки
+                            sm: "repeat(3, 1fr)",  // от 600 до 900px — 3
+                            md: "repeat(4, 1fr)",  // от 900px и выше — 4
+                        },
+                    }}
+                >
+                    {menuItems.map((food) => (
+                        <MenuItem
+                            key={food.id}
+                            food={food}
+                            onAdd={onAdd}
+                            onRemove={onRemove}
+                        />
+                    ))}
+                </Box>
 
-            <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+                <Cart cartItems={cartItems} onCheckout={handleCheckout} />
+            </Box>
+
+            {/*<Cart cartItems={cartItems} onCheckout={handleCheckout}/>*/}
+
+            <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Оформление заказа</DialogTitle>
-                <DialogContent>
+                <DialogContent dividers>
                     <TextField
                         label="Адрес доставки"
                         fullWidth
@@ -119,24 +133,36 @@ const MenuList = () => {
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                     />
-                    <FormLabel component="legend" sx={{mt: 2}}>Способ оплаты</FormLabel>
+                    <FormLabel sx={{mt: 2}}>Способ оплаты</FormLabel>
                     <RadioGroup
+                        row
                         value={paymentMethod}
                         onChange={(e) => setPaymentMethod(e.target.value)}
                     >
-                        <FormControlLabel value="QR" control={<Radio/>} label="QR"/>
-                        <FormControlLabel value="CASH" control={<Radio/>} label="Наличные"/>
+                        <FormControlLabel
+                            value="QR"
+                            control={<Radio/>}
+                            label="QR"
+                        />
+                        <FormControlLabel
+                            value="CASH"
+                            control={<Radio/>}
+                            label="Наличные"
+                        />
                     </RadioGroup>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleSubmitOrder} variant="contained" fullWidth>
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        onClick={handleSubmit}
+                    >
                         Подтвердить
                     </Button>
                 </DialogActions>
             </Dialog>
-        </>
+        </Box>
     );
-
 };
 
 export default MenuList;

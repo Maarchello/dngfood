@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from "react";
-import "./RestaurantList.css";
-import "../../Common.css";
-import RestaurantItem from "../RestaurantItem/RestaurantItem";
-import TopRestaurantItem from "../RestaurantItem/TopRestaurantItem";
-import {CircularProgress, InputAdornment, TextField} from "@mui/material";
+import {Box, CircularProgress, InputAdornment, TextField, Typography, useTheme,} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import {getRestaurants} from "../../service/ApiService";
+import RestaurantItem from "../RestaurantItem/RestaurantItem";
+
+import {filesUrl, getRestaurants} from "../../service/ApiService";
 
 const RestaurantList = () => {
     const [restaurants, setRestaurants] = useState([]);
     const [query, setQuery] = useState("");
+    const theme = useTheme();
 
     useEffect(() => {
         getRestaurants((data) => setRestaurants(data.content));
@@ -24,9 +23,23 @@ const RestaurantList = () => {
     const topRestaurants = restaurants.slice(0, 5);
 
     return (
-        <div className="main">
-            {/* ── шапка поиска ───────────────────────────────────────────── */}
-            <div className="search-bar">
+        <Box
+            sx={{
+                bgcolor: "background.default",
+                minHeight: "100vh",
+                p: 2,
+            }}
+        >
+            {/* Search bar */}
+            <Box
+                sx={{
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 100,
+                    mb: 2,
+                    background: "background.default",
+                }}
+            >
                 <TextField
                     fullWidth
                     size="small"
@@ -36,35 +49,85 @@ const RestaurantList = () => {
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
-                                <SearchIcon sx={{ fontSize: 20 }} />
+                                <SearchIcon color="action" />
                             </InputAdornment>
                         ),
+                        sx: {
+                            bgcolor: "background.paper",
+                        },
                     }}
                 />
-            </div>
+            </Box>
 
-            {/* ── карусель топов ── */}
+            {/* Top carousel */}
             {topRestaurants.length > 0 && (
-                <div className="top-scroll">
+                <Box
+                    sx={{
+                        display: "flex",
+                        gap: 2,
+                        overflowX: "auto",
+                        mb: 3,
+                        pb: 1,
+                        "&::-webkit-scrollbar": { display: "none" },
+                    }}
+                >
                     {topRestaurants.map((r) => (
-                        <TopRestaurantItem key={r.id} restaurant={r} />
+                        <Box
+                            key={r.id}
+                            sx={{
+                                flex: "0 0 110px",
+                                display: "flex",
+                                alignItems: "center",
+                                flexDirection: "column",
+                                cursor: "pointer",
+                            }}
+                            onClick={() =>
+                                window.open(`/restaurants/${r.id}/menu`, "_self")
+                            }
+                        >
+                            <Box
+                                component="img"
+                                src={r.photo ? filesUrl + r.photo : "/no-image.png"}
+                                alt={r.name}
+                                sx={{
+                                    width: 88,
+                                    height: 88,
+                                    borderRadius: 1,
+                                    objectFit: "cover",
+                                    mb: 0.5,
+                                }}
+                            />
+                            <Typography
+                                variant="caption"
+                                noWrap
+                                sx={{ color: "text.primary", textAlign: "center" }}
+                            >
+                                {r.name}
+                            </Typography>
+                        </Box>
                     ))}
-                </div>
+                </Box>
             )}
 
-            {/* ── список заведений ──────────────────────────────────────── */}
+            {/* Loader or list */}
             {restaurants.length === 0 ? (
-                <div className="loader">
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        mt: 4,
+                    }}
+                >
                     <CircularProgress />
-                </div>
+                </Box>
             ) : (
-                <div className="list">
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                     {filtered.map((item) => (
                         <RestaurantItem key={item.id} restaurant={item} />
                     ))}
-                </div>
+                </Box>
             )}
-        </div>
+        </Box>
     );
 };
 

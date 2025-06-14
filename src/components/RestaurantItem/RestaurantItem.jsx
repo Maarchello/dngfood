@@ -1,46 +1,85 @@
-// src/components/RestaurantItem/RestaurantItem.jsx
 import React from "react";
-import {useNavigate} from "react-router-dom";
+import {Box, Typography, useTheme} from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import "./RestaurantItem.css";
+import {useNavigate} from "react-router-dom";
 import {filesUrl} from "../../service/ApiService";
 
 const RestaurantItem = ({ restaurant }) => {
     const navigate = useNavigate();
-    const openMenu = () => navigate(`/restaurants/${restaurant.id}/menu`);
-
-    // заглушка рейтинга (если поля нет — показываем «NEW»)
-    const rating = restaurant.rating ?? null;
+    const theme = useTheme();
+    const rating = restaurant.rating;
 
     return (
-        <div className="rest-item" onClick={openMenu}>
-            <img
+        <Box
+            onClick={() => navigate(`/restaurants/${restaurant.id}/menu`)}
+            sx={{
+                display: "flex",
+                gap: 2,
+                p: 2,
+                borderRadius: 2,
+                boxShadow: 1,
+            }}
+        >
+            {/* Картинка */}
+            <Box
+                component="img"
                 src={filesUrl + restaurant.photo}
                 alt={restaurant.name}
-                onError={(e) => {
-                    e.target.onerror = null;
+                onError={(e) => { e.target.onerror = null; }}
+                sx={{
+                    width: 88,
+                    height: 88,
+                    borderRadius: 1,
+                    objectFit: "cover",
+                    flexShrink: 0,
                 }}
             />
 
-            <div className="rest-info">
-                <div className="rest-top">
-                    <h4 className="rest-name">{restaurant.name}</h4>
+            {/* Инфо */}
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        mb: 0.5,
+                    }}
+                >
+                    <Typography
+                        variant="subtitle1"
+                        noWrap
+                        sx={{ fontWeight: 600 }}
+                    >
+                        {restaurant.name}
+                    </Typography>
 
                     {rating ? (
-                        <span className="rest-rating">
-              <StarIcon fontSize="inherit" />
+                        <Box
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                typography: "body2",
+                                gap: 0.5,
+                            }}
+                        >
+                            <StarIcon fontSize="small" />
                             {rating.toFixed(1)}
-            </span>
+                        </Box>
                     ) : (
-                        <span className="rest-new">NEW</span>
+                        <Typography
+                            variant="caption"
+                            sx={{ fontWeight: 700 }}
+                        >
+                            NEW
+                        </Typography>
                     )}
-                </div>
+                </Box>
 
-                <p className="rest-desc">{restaurant.description}</p>
-
-                {/* при необходимости сюда можно добавить «from 30 mins • 12 000đ» */}
-            </div>
-        </div>
+                <Typography variant="body2" noWrap>
+                    {restaurant.description}
+                </Typography>
+            </Box>
+        </Box>
     );
 };
 

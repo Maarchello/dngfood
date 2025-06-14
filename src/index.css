@@ -3,3 +3,13 @@
     src: local('SalinaRegular'), url(fonts/SalinaRegular/SalinaRegular.woff) format('woff');
     font-weight: bold;
 }
+
+:root {
+    /* fallback для браузера вне Telegram */
+    --tg-bg:             #f5f7fa;
+    --tg-surface:        #ffffff;
+    --tg-text:           #000000;
+    --tg-text-secondary: #606060;
+    --tg-accent:         #16a64d;
+    --tg-border:         rgba(0,0,0,.08);
+}

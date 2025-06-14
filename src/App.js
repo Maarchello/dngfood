@@ -20,8 +20,6 @@ function App() {
         tg.ready();
     }, []);
 
-
-
     const theme = createTheme({
         palette: {
             mode: tg.colorScheme,

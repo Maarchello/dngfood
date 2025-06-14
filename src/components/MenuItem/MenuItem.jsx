@@ -1,39 +1,126 @@
 import React, {useState} from "react";
-import "./MenuItem.css";
+import {Box, IconButton, Typography, useTheme} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import {filesUrl} from "../../service/ApiService";
 
-function MenuItem({ food, onAdd, onRemove }) {
+const MenuItem = ({ food, onAdd, onRemove }) => {
+    const theme = useTheme();
     const [count, setCount] = useState(0);
     const { name, photo, price } = food;
 
-    const add = () => {
-        setCount((c) => c + 1);
+    const inc = () => {
+        setCount((q) => q + 1);
         onAdd(food);
     };
-    const remove = () => {
-        setCount((c) => c - 1);
-        onRemove(food);
+    const dec = () => {
+        if (count > 0) {
+            setCount((q) => q - 1);
+            onRemove(food);
+        }
     };
 
     return (
-        <div className="card">
-            {count > 0 && <span className="card__badge">{count}</span>}
-
-            <div className="image">
-                <img src={filesUrl + photo} alt={name} />
-            </div>
-
-            <div className="info">
-                <p className="info__name">{name}</p>
-                <p className="info__price">VND {price}</p>
-            </div>
-
-            <button className="btn-add" onClick={add}>+</button>
+        <Box
+            sx={{
+                position: "relative",
+                bgcolor: "background.paper",
+                borderRadius: 2,
+                boxShadow: 1,
+                overflow: "hidden",
+            }}
+        >
+            {/* ── Вот здесь рисуем кружок с количеством ── */}
             {count > 0 && (
-                <button className="btn-remove" onClick={remove}>−</button>
+                <Box
+                    sx={{
+                        position: "absolute",
+                        top: 8,
+                        left: 8,
+                        minWidth: 30,
+                        height: 30,
+                        px: 0.5,
+                        borderRadius: "50%",
+                        bgcolor: theme.palette.primary.light,
+                        // color: "#fff",
+                        color: theme.palette.primary.contrastText,
+                        fontSize: "0.75rem",
+                        fontWeight: 600,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        zIndex: 2,
+                    }}
+                >
+                    {count}
+                </Box>
             )}
-        </div>
+
+            {/* картинка */}
+            <Box
+                component="img"
+                src={filesUrl + photo}
+                alt={name}
+                onError={(e) => (e.target.src = "/no-image.png")}
+                sx={{
+                    width: "100%",
+                    height: 140,
+                    objectFit: "cover",
+                }}
+            />
+
+            {/* контент */}
+            <Box sx={{ p: 2, pt: 1 }}>
+                <Typography
+                    variant="subtitle2"
+                    noWrap
+                    sx={{ fontWeight: 600, color: "text.primary" }}
+                >
+                    {name}
+                </Typography>
+                <Typography
+                    variant="body2"
+                    sx={{ color: "text.secondary", mt: 0.5 }}
+                >
+                    VND {price.toLocaleString("vi-VN")}
+                </Typography>
+            </Box>
+
+            {/* кнопка «+» */}
+            <IconButton
+                onClick={inc}
+                size="medium"
+                sx={{
+                    position: "absolute",
+                    bottom: 8,
+                    right: 8,
+                    bgcolor: theme.palette.success.main,
+                    color: "#fff",
+                    "&:hover": { bgcolor: theme.palette.success.dark },
+                }}
+            >
+                <AddIcon />
+            </IconButton>
+
+            {/* кнопка «−» */}
+            {count > 0 && (
+                <IconButton
+                    onClick={dec}
+                    size="medium"
+                    sx={{
+                        position: "absolute",
+                        bottom: 8,
+                        right: 56,
+                        bgcolor: theme.palette.error.main,
+                        color: "#fff",
+                        "&:hover": { bgcolor: theme.palette.error.dark },
+                    }}
+                >
+                    <RemoveIcon />
+                </IconButton>
+            )}
+        </Box>
     );
-}
+};
 
 export default MenuItem;
