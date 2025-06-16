@@ -12,12 +12,12 @@ export function setToken(t) {
 }
 
 export async function authenticate(initData, callback) {
-    post(`${Constants.BASE_URL}/api/v1/auth/tg?client=true`, JSON.stringify({initData: initData}), (token) => {
+    await post(`${Constants.BASE_URL}/api/v1/auth/tg?client=true`, JSON.stringify({initData: initData}), (token) => {
         setToken(token);
         callback(token);
     });
 }
 
 export async function introspect(token, callback) {
-    post(`${Constants.BASE_URL}/api/v1/auth/token/introspect`,null, callback)
+    await post(`${Constants.BASE_URL}/api/v1/auth/token/introspect`,null, callback)
 }

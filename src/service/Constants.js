@@ -1,5 +1,6 @@
 export const Constants = {
     BASE_URL: "https://dngfood.tmcn.io",
+    // BASE_URL: "https://tops-mudfish-logically.ngrok-free.app",
     TKN_PROP_NAME: "tkn",
     ORDER_STATUSES: {
         NEW: { label: 'Новый', color: 'warning' },

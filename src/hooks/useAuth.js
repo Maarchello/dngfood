@@ -35,10 +35,10 @@ export function useAuth() {
 
     // принудительное обновление, пригодится интерсептору 401
     const refreshToken = useCallback(async () => {
-        await authenticate(tg.initData, (t) => {
+        await authenticate(tg?.initData, (t) => {
             setTok(t)
         });
-    }, [tg.initData]);
+    }, [tg?.initData]);
 
     return {token, refreshToken};
 }

@@ -87,7 +87,7 @@ const RestaurantList = () => {
                         >
                             <Box
                                 component="img"
-                                src={r.photo ? filesUrl + r.photo : "/no-image.png"}
+                                src={r.photo ? filesUrl + r.photo : "/logo512.png"}
                                 alt={r.name}
                                 sx={{
                                     width: 88,

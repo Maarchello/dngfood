@@ -5,99 +5,116 @@ async function refreshToken() {
         console.log('success refresh token')
     })
 }
-async function handleErrors(response) {
+
+async function fetchWithAuth(url, options = {}) {
+    // Собираем заголовки (в том числе свежий токен)
+    options.headers = {
+        ...options.headers,
+        'ngrok-skip-browser-warning': 'anyValueHere',
+        'Authorization': `Bearer ${getToken()}`,
+    };
+
+    let response = await fetch(url, options);
+
     if (response.status === 401) {
+        // Если токен протух — обновляем и пробуем ещё раз
         await refreshToken();
+        options.headers['Authorization'] = `Bearer ${getToken()}`;
+        response = await fetch(url, options);
     }
 
     return response;
 }
 export async function getAsJson(url, callback) {
 
-    const requestOptions = {
-        headers: {
-            'ngrok-skip-browser-warning': 'anyValueHere',
-            'Authorization': `Bearer ${getToken()}`
-        },
-    };
-
-    fetch(url, requestOptions)
-        .then((res) => handleErrors(res))
-        .then((res) => res.json())
-        .then((data) => {
-            callback(data);
-        }).catch((err) => {
-        console.log(err);
-    });
+    try {
+        const res = await fetchWithAuth(url);
+        if (!res.ok) {
+            return;
+        }
+        const data = await res.json();
+        callback(data);
+    } catch (err) {
+        console.error(err);
+    }
 }
 
-export function getAsText(url, callback) {
-    const requestOptions = {
-        headers: {'ngrok-skip-browser-warning': 'anyValueHere',
-            'Authorization': `Bearer ${getToken()}`},
-    };
+export async function getAsText(url, callback) {
+    try {
+        const res = await fetchWithAuth(url);
+        if (!res.ok) {
+            return;
+        }
+        let data = await res.text();
+        if (data.length) {
+            data = JSON.stringify(data)
+        } else {
+            data = {}
+        }
 
-    fetch(url, requestOptions)
-        .then((res) => handleErrors(res))
-        .then((res) => res.text())
-        .then((text) => text.length ? JSON.parse(text) : {})
-        .then((data) => {
-            callback(data);
-        }).catch((err) => {
-        console.log(err);
-    });
+        callback(data);
+    } catch (err) {
+        console.error(err);
+    }
+
 }
 
-export function post(url, body, callback) {
+export async function post(url, body, callback) {
 
     const requestOptions = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${getToken()}`},
+        headers: {'Content-Type': 'application/json'},
         body: body
     };
 
-    fetch(url, requestOptions)
-        .then((res) => handleErrors(res))
-        .then((res) => res.text())
-        .then((data) => {
-            callback(data);
-        }).catch((err) => {
-        console.log(err);
-    });
+    try {
+        const res = await fetchWithAuth(url, requestOptions);
+        if (!res.ok) {
+            return;
+        }
+        const data = await res.text();
+        callback(data);
+    } catch (err) {
+        console.error(err);
+    }
 }
 
-export function patch(url, body, callback) {
+export async function patch(url, body, callback) {
 
     const requestOptions = {
         method: 'PATCH',
-        headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${getToken()}`},
+        headers: {'Content-Type': 'application/json'},
         body: body
     };
 
-    fetch(url, requestOptions)
-        .then((res) => handleErrors(res))
-        .then((res) => res.text())
-        .then((data) => {
-            callback(data);
-        }).catch((err) => {
-        console.log(err);
-    });
+    try {
+        const res = await fetchWithAuth(url, requestOptions);
+        if (!res.ok) {
+            return;
+        }
+        const data = await res.text();
+        callback(data);
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 
-export function del(url, callback) {
+export async function del(url, callback) {
+
     const requestOptions = {
-        method: 'DELETE',
-        headers: {'Authorization': `Bearer ${getToken()}`}
+        method: 'DELETE'
     };
 
-    fetch(url, requestOptions)
-        .then((res) => handleErrors(res))
-        .then((res) => res.text())
-        .then((data) => {
-            callback(data);
-        }).catch((err) => {
-        console.log(err);
-    });
+    try {
+        const res = await fetchWithAuth(url, requestOptions);
+        if (!res.ok) {
+            return;
+        }
+        const data = await res.text();
+        callback(data);
+    } catch (err) {
+        console.error(err);
+    }
 }
 

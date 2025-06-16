@@ -18,16 +18,16 @@ function App() {
 
     const {token} = useAuth();
 
-    const [mode, setMode] = useState(tg.colorScheme);
+    const [mode, setMode] = useState(tg?.colorScheme || 'light');
 
     useEffect(() => {
-        tg.ready();
+        tg?.ready();
     }, []);
 
     // при смене темы в клиенте — обновляем mode
     useEffect(() => {
-        tg.onEvent("themeChanged", () => {
-            setMode(tg.colorScheme);
+        tg?.onEvent("themeChanged", () => {
+            setMode(tg?.colorScheme || 'light');
         });
     }, [tg]);
 

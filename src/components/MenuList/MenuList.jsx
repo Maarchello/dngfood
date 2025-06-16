@@ -79,22 +79,6 @@ const MenuList = () => {
         });
     };
 
-    // const handleSubmit = () => {
-    //     const positions = Object.fromEntries(
-    //         cartItems.map(({id, quantity}) => [id, quantity])
-    //     );
-    //     setOpen(false);
-    //     makeOrder(
-    //         {
-    //             deliveryAddress: address,
-    //             clientContactPhone: phone,
-    //             paymentMethod,
-    //             positions
-    //         },
-    //         () => onClose()
-    //     );
-    // };
-
     return (
         <Box sx={{p: 2, bgcolor: "background.default", minHeight: "100vh"}}>
             <Box sx={{p: 2, bgcolor: "background.default", minHeight: "100vh"}}>

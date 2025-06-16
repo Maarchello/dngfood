@@ -14,10 +14,11 @@ export const useTelegramBackButton = () => {
             navigate(-1); // вернуть на предыдущую страницу
         };
 
+        const hasHistory = (window.history.state?.idx ?? 0) > 0;
+
         // показать кнопку, если не на главной
-        const isMainPage =
-            location.pathname === '/' || location.pathname === '/restaurants';
-        if (!isMainPage) {
+        const canGoBack = (location.pathname === '/' || location.pathname === '/restaurants') && hasHistory;
+        if (!canGoBack) {
             tg.BackButton.onClick(handleBack);
             tg.BackButton.show();
         } else {

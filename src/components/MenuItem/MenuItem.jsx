@@ -61,7 +61,7 @@ const MenuItem = ({ food, onAdd, onRemove }) => {
                 component="img"
                 src={filesUrl + photo}
                 alt={name}
-                onError={(e) => (e.target.src = "/no-image.png")}
+                onError={(e) => (e.target.src = "/logo512.png")}
                 sx={{
                     width: "100%",
                     height: 140,

@@ -1,10 +1,12 @@
-// const baseUrl = 'http://localhost:8080';
-import {getAsJson, post} from "./HttpWrapper";
+import {getAsJson, patch, post} from "./HttpWrapper";
+import {Constants} from "./Constants";
 
-// const baseUrl = 'https://tops-mudfish-logically.ngrok-free.app';
-const baseUrl = 'https://dngfood.tmcn.io';
+const baseUrl = Constants.BASE_URL;
 export const filesUrl = `${baseUrl}/api/files?path=`;
 
+export async function reviewOrder(orderId, body, callback) {
+    await patch(`${baseUrl}/api/${orderId}`, JSON.stringify(body), callback)
+}
 export async function getUserOrders(callback) {
     await getAsJson(`${baseUrl}/api/orders?sort=createdAt,desc`, callback);
 }
