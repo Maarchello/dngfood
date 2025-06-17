@@ -7,7 +7,8 @@ import {useLocation, useNavigate} from "react-router-dom";
 
 const pathToValueMap = {
     '/orders': 'Orders',
-    '/restaurants': 'Restaurants'
+    '/restaurants': 'Restaurants',
+    '/': 'Restaurants',
 };
 
 const valueToPathMap = {
