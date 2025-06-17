@@ -1,13 +1,14 @@
 import React from "react";
 import {Box, Typography, useTheme} from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import FiberNewIcon from '@mui/icons-material/FiberNew';
 import {useNavigate} from "react-router-dom";
 import {filesUrl} from "../../service/ApiService";
 
 const RestaurantItem = ({ restaurant }) => {
     const navigate = useNavigate();
     const theme = useTheme();
-    const rating = restaurant.rating;
+    const rating = restaurant?.rating;
 
     return (
         <Box
@@ -63,16 +64,11 @@ const RestaurantItem = ({ restaurant }) => {
                                 gap: 0.5,
                             }}
                         >
-                            <StarIcon fontSize="small" />
+                            <StarIcon style={{ color: 'gold' }} fontSize="small" />
                             {rating.toFixed(1)}
                         </Box>
                     ) : (
-                        <Typography
-                            variant="caption"
-                            sx={{ fontWeight: 700 }}
-                        >
-                            NEW
-                        </Typography>
+                        <FiberNewIcon style={{ color: 'green' }} />
                     )}
                 </Box>
 

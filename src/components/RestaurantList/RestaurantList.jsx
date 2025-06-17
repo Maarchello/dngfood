@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, CircularProgress, InputAdornment, TextField, Typography, useTheme,} from "@mui/material";
+import {Box, CircularProgress, InputAdornment, TextField, Typography,} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import RestaurantItem from "../RestaurantItem/RestaurantItem";
 
@@ -8,7 +8,6 @@ import {filesUrl, getRestaurants} from "../../service/ApiService";
 const RestaurantList = () => {
     const [restaurants, setRestaurants] = useState([]);
     const [query, setQuery] = useState("");
-    const theme = useTheme();
 
     useEffect(() => {
         getRestaurants((data) => setRestaurants(data.content));

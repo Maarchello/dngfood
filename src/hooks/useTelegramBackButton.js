@@ -16,9 +16,9 @@ export const useTelegramBackButton = () => {
 
         const hasHistory = (window.history.state?.idx ?? 0) > 0;
 
-        // показать кнопку, если не на главной
-        const canGoBack = (location.pathname === '/' || location.pathname === '/restaurants') && hasHistory;
-        if (!canGoBack) {
+        const isMainPage = location.pathname === '/' || location.pathname === '/restaurants';
+        const canGoBack = !isMainPage && hasHistory;
+        if (canGoBack) {
             tg.BackButton.onClick(handleBack);
             tg.BackButton.show();
         } else {

@@ -12,9 +12,10 @@ import OrderList from "./components/OrderList/OrderList";
 import {useAuth} from "./hooks/useAuth";
 
 import {lighten} from "@mui/material/styles";
+import ReviewForm from "./components/Review/ReviewForm";
 
 function App() {
-    const {tg, onToggleButton} = useTelegram();
+    const {tg} = useTelegram();
 
     const {token} = useAuth();
 
@@ -68,6 +69,7 @@ function App() {
                 <Route path={'restaurants/:restId/menu'} element={<MenuList />} />
                 <Route path={'orders'} element={<OrderList />} />
                 <Route path={'orders/:orderId/details'} element={<OrderDetails />} />
+                <Route path={'orders/:orderId/review'} element={<ReviewForm />} />
 
             </Routes>
 
