@@ -5,7 +5,7 @@ const baseUrl = Constants.BASE_URL;
 export const filesUrl = `${baseUrl}/api/files?path=`;
 
 export async function reviewOrder(orderId, body, callback) {
-    await patch(`${baseUrl}/api/${orderId}`, JSON.stringify(body), callback)
+    await patch(`${baseUrl}/api/orders/${orderId}`, JSON.stringify(body), callback)
 }
 export async function getUserOrders(callback) {
     await getAsJson(`${baseUrl}/api/orders?sort=createdAt,desc`, callback);
