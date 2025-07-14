@@ -29,6 +29,7 @@ const MenuList = () => {
     const [open, setOpen] = useState(false);
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
+    const [comment, setComment] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("QR");
 
     useEffect(() => {
@@ -67,14 +68,13 @@ const MenuList = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault(); // чтобы не перезагружалась страница
-        console.log("Форма отправилась!");
         // если поля пустые, браузер не вызовет onSubmit
         // и покажет красные подсказки под полями
 
         const positions = Object.fromEntries(
             cartItems.map(({id, quantity}) => [id, quantity])
         );
-        makeOrder({deliveryAddress: address, clientContactPhone: phone, paymentMethod, positions}, () => {
+        makeOrder({deliveryAddress: address, clientContactPhone: phone, paymentMethod, comment, positions}, () => {
             onClose();
         });
     };
@@ -153,6 +153,15 @@ const MenuList = () => {
                                 label="Наличные"
                             />
                         </RadioGroup>
+
+                        <TextField
+                            label="Комментарий к заказу"
+                            name="comment"
+                            fullWidth
+                            margin="normal"
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                        />
                     </DialogContent>
 
                     <DialogActions sx={{ p: 2 }}>

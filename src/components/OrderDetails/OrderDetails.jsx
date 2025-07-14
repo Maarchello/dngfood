@@ -65,14 +65,14 @@ const OrderDetails = () => {
         <Box p={2}>
             <Typography variant="h5" gutterBottom>Детали заказа</Typography>
 
-            <Typography variant="subtitle1"><b>Ресторан:</b> {order.restaurantName}</Typography>
+            <Typography variant="subtitle1"><b>Ресторан:</b> {order.restaurant.name}</Typography>
             <Typography variant="subtitle1"><b>Адрес:</b> {order.deliveryAddress}</Typography>
             <Typography variant="subtitle1"><b>Телефон:</b> {order.clientContactPhone}</Typography>
             <Typography variant="subtitle1"><b>Оплата:</b> {order.paymentMethod === 'QR' ? 'QR' : 'Наличные'}</Typography>
             <Typography variant="subtitle1"><b>Стоимость:</b> {order.price} VND</Typography>
             <Typography variant="subtitle1">
                 <b>Статус:</b> {renderStatusChip(order.status)}
-                <Typography variant="subtitle1">{order?.status == 'REJECTED' ? order.rejectReason : ''}</Typography>
+                <Typography variant="subtitle1">{order?.status === 'REJECTED' ? order.rejectReason : ''}</Typography>
             </Typography>
             <Divider sx={{ my: 2 }} />
 
@@ -93,29 +93,6 @@ const OrderDetails = () => {
                         </Button>
                     </>
                 )}
-                {/*{order.status === 'NOT_RECEIVED' && (*/}
-                {/*    <>*/}
-                {/*        <Button variant="contained" color="success" onClick={handleCancelOrder}>*/}
-                {/*            Отменить*/}
-                {/*        </Button>*/}
-                {/*    </>*/}
-                {/*)}*/}
-
-                {/*{order.status === 'ARRIVED' && (*/}
-                {/*    <>*/}
-                {/*        <Button variant="contained" color="primary" onClick={handleReceiveOrder}>*/}
-                {/*            Заказ получен*/}
-                {/*        </Button>*/}
-                {/*    </>*/}
-                {/*)}*/}
-
-                {/*{order.status === 'ARRIVED' && (*/}
-                {/*    <>*/}
-                {/*        <Button variant="contained" color="primary" onClick={handleNotReceiveOrder}>*/}
-                {/*            Заказ не получен*/}
-                {/*        </Button>*/}
-                {/*    </>*/}
-                {/*)}*/}
 
                 {order.status === 'NOT_RECEIVED' && (
                     <>

@@ -1,4 +1,4 @@
-import {post} from "./HttpWrapper";
+import {post, postJson} from "./HttpWrapper";
 import {Constants} from "./Constants";
 
 const TOKEN_KEY = 'tkn';
@@ -19,5 +19,5 @@ export async function authenticate(initData, callback) {
 }
 
 export async function introspect(token, callback) {
-    await post(`${Constants.BASE_URL}/api/v1/auth/token/introspect`,null, callback)
+    await postJson(`${Constants.BASE_URL}/api/v1/auth/token/introspect`,null, callback)
 }

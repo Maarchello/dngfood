@@ -79,6 +79,26 @@ export async function post(url, body, callback) {
     }
 }
 
+export async function postJson(url, body, callback) {
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: body
+    };
+
+    try {
+        const res = await fetchWithAuth(url, requestOptions);
+        if (!res.ok) {
+            return;
+        }
+        const data = await res.json();
+        callback(data);
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 export async function patch(url, body, callback) {
 
     const requestOptions = {
